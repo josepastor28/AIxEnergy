@@ -274,6 +274,29 @@ export default function RadarChart() {
         </div>
       </div>
 
+      {/* Quick Stats */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-lg">Quick Stats</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-3 gap-4">
+            <div className="text-center">
+              <div className="text-2xl font-bold text-blue-600">24</div>
+              <div className="text-sm text-muted-foreground">Total Applications</div>
+            </div>
+            <div className="text-center">
+              <div className="text-2xl font-bold text-green-600">8</div>
+              <div className="text-sm text-muted-foreground">Energy Sectors</div>
+            </div>
+            <div className="text-center">
+              <div className="text-2xl font-bold text-purple-600">6</div>
+              <div className="text-sm text-muted-foreground">Technologies</div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
       {/* Main Layout: Filters on Left, Radar on Right */}
       <div className="flex gap-6">
         {/* Filters - Left Side */}

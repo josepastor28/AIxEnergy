@@ -10,15 +10,22 @@ import {
   FileText, 
   Home,
   Filter,
-  BarChart3
+  BarChart3,
+  User,
+  ChevronLeft,
+  ChevronRight
 } from "lucide-react";
+import { useState } from "react";
 
 interface SidebarProps {
   currentView: 'entry' | 'radar' | 'valueChain' | 'useCases';
   onViewChange: (view: 'entry' | 'radar' | 'valueChain' | 'useCases') => void;
+  onToggle?: (collapsed: boolean) => void;
 }
 
-export default function Sidebar({ currentView, onViewChange }: SidebarProps) {
+export default function Sidebar({ currentView, onViewChange, onToggle }: SidebarProps) {
+  const [isCollapsed, setIsCollapsed] = useState(false);
+
   const navigationItems = [
     {
       id: 'radar',
@@ -43,28 +50,38 @@ export default function Sidebar({ currentView, onViewChange }: SidebarProps) {
     }
   ];
 
+  const handleToggle = () => {
+    const newCollapsedState = !isCollapsed;
+    setIsCollapsed(newCollapsedState);
+    onToggle?.(newCollapsedState);
+  };
+
   const SidebarContent = () => (
-    <div className="w-80 bg-card border-r border-border flex flex-col">
+    <div className={`bg-card border-r border-border flex flex-col transition-all duration-300 ${
+      isCollapsed ? 'w-16' : 'w-80'
+    }`}>
       {/* Header */}
-      <div className="p-6 border-b border-border">
-        <div className="flex items-center gap-3 mb-4">
-          <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-green-600 rounded-lg flex items-center justify-center">
-            <BarChart3 className="w-6 h-6 text-white" />
+      <div className="p-4 border-b border-border">
+        {!isCollapsed && (
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-green-600 rounded-lg flex items-center justify-center">
+              <BarChart3 className="w-6 h-6 text-white" />
+            </div>
+            <div>
+              <h2 className="font-semibold text-lg">AI Energy Radar</h2>
+              <p className="text-sm text-muted-foreground">Energy AI Applications</p>
+            </div>
           </div>
-          <div>
-            <h2 className="font-semibold text-lg">AI Energy Radar</h2>
-            <p className="text-sm text-muted-foreground">Energy AI Applications</p>
-          </div>
-        </div>
+        )}
         
         <Button 
           variant="outline" 
           size="sm" 
           onClick={() => onViewChange('entry')}
-          className="w-full"
+          className={`${isCollapsed ? 'w-full' : 'w-full'}`}
         >
-          <Home className="w-4 h-4 mr-2" />
-          Back to Home
+          {!isCollapsed && <Home className="w-4 h-4 mr-2" />}
+          {isCollapsed ? <Home className="w-4 h-4" /> : 'Back to Home'}
         </Button>
       </div>
 
@@ -78,48 +95,44 @@ export default function Sidebar({ currentView, onViewChange }: SidebarProps) {
             <Button
               key={item.id}
               variant={isActive ? "default" : "ghost"}
-              className={`w-full justify-start h-auto p-4 ${
+              className={`w-full justify-start h-auto ${
+                isCollapsed ? 'p-3' : 'p-4'
+              } ${
                 isActive ? "bg-primary text-primary-foreground" : "hover:bg-muted"
               }`}
               onClick={() => onViewChange(item.id as 'radar' | 'valueChain' | 'useCases')}
             >
-              <div className="flex items-center gap-3">
+              <div className={`flex items-center gap-3 ${isCollapsed ? 'justify-center' : ''}`}>
                 <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${
                   isActive ? 'bg-white/20' : item.color
                 }`}>
                   <Icon className="w-4 h-4" />
                 </div>
-                <div className="text-left">
-                  <div className="font-medium">{item.label}</div>
-                  <div className="text-xs opacity-80">{item.description}</div>
-                </div>
+                {!isCollapsed && (
+                  <div className="text-left">
+                    <div className="font-medium">{item.label}</div>
+                    <div className="text-xs opacity-80">{item.description}</div>
+                  </div>
+                )}
               </div>
             </Button>
           );
         })}
       </div>
 
-      {/* Footer */}
+      {/* User Section - Bottom */}
       <div className="p-4 border-t border-border">
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm">Quick Stats</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-2">
-            <div className="flex justify-between text-sm">
-              <span>Applications</span>
-              <Badge variant="secondary">24</Badge>
+        <div className={`flex items-center gap-3 ${isCollapsed ? 'justify-center' : ''}`}>
+          <div className="w-8 h-8 bg-muted rounded-full flex items-center justify-center">
+            <User className="w-4 h-4" />
+          </div>
+          {!isCollapsed && (
+            <div className="flex-1">
+              <p className="text-sm font-medium">User</p>
+              <p className="text-xs text-muted-foreground">Guest</p>
             </div>
-            <div className="flex justify-between text-sm">
-              <span>Sectors</span>
-              <Badge variant="secondary">8</Badge>
-            </div>
-            <div className="flex justify-between text-sm">
-              <span>Technologies</span>
-              <Badge variant="secondary">6</Badge>
-            </div>
-          </CardContent>
-        </Card>
+          )}
+        </div>
       </div>
     </div>
   );
@@ -142,8 +155,16 @@ export default function Sidebar({ currentView, onViewChange }: SidebarProps) {
 
   // Desktop sidebar
   return (
-    <div className={`transition-all duration-300`}>
+    <div className="flex">
       <SidebarContent />
+      <Button
+        variant="outline"
+        size="sm"
+        className="h-8 w-8 p-0 border-l-0 rounded-l-none"
+        onClick={handleToggle}
+      >
+        {isCollapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
+      </Button>
     </div>
   );
 } 

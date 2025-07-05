@@ -33,7 +33,7 @@ export default function EntryScreen({ onViewChange }: EntryScreenProps) {
   const handleSkip = () => {
     setIsVisible(false);
     setTimeout(() => {
-      onViewChange('entry');
+      onViewChange('radar');
     }, 200);
   };
 
