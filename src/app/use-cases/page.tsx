@@ -36,9 +36,7 @@ export default function UseCasesPage() {
         onViewChange={handleViewChange}
         onToggle={handleSidebarToggle}
       />
-      <main className={`flex-1 overflow-auto p-6 transition-all duration-300 ${
-        isSidebarCollapsed ? 'ml-16' : 'ml-0'
-      }`}>
+      <main className="flex-1 overflow-auto p-6">
         <UseCaseForm />
       </main>
     </div>

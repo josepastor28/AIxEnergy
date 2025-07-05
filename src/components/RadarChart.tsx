@@ -274,38 +274,30 @@ export default function RadarChart() {
         </div>
       </div>
 
-      {/* Quick Stats */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-lg">Quick Stats</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-3 gap-4">
-            <div className="text-center">
-              <div className="text-2xl font-bold text-blue-600">24</div>
-              <div className="text-sm text-muted-foreground">Total Applications</div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-green-600">8</div>
-              <div className="text-sm text-muted-foreground">Energy Sectors</div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-purple-600">6</div>
-              <div className="text-sm text-muted-foreground">Technologies</div>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Main Layout: Filters on Left, Radar on Right */}
+      {/* Main Layout: Quick Stats on Left, Radar on Right */}
       <div className="flex gap-6">
-        {/* Filters - Left Side */}
+        {/* Quick Stats - Left Side */}
         <div className="w-80 flex-shrink-0">
           <Card>
             <CardHeader>
-              <CardTitle>Filters</CardTitle>
+              <CardTitle>Quick Stats</CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
+              <div className="grid grid-cols-1 gap-4">
+                <div className="text-center p-4 bg-blue-50 rounded-lg">
+                  <div className="text-3xl font-bold text-blue-600">24</div>
+                  <div className="text-sm text-muted-foreground">Total Applications</div>
+                </div>
+                <div className="text-center p-4 bg-green-50 rounded-lg">
+                  <div className="text-3xl font-bold text-green-600">8</div>
+                  <div className="text-sm text-muted-foreground">Energy Sectors</div>
+                </div>
+                <div className="text-center p-4 bg-purple-50 rounded-lg">
+                  <div className="text-3xl font-bold text-purple-600">6</div>
+                  <div className="text-sm text-muted-foreground">Technologies</div>
+                </div>
+              </div>
+
               {/* Categories */}
               <div>
                 <h3 className="font-semibold mb-3">Categories</h3>
