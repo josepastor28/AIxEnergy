@@ -2,15 +2,13 @@
 
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 interface EntryScreenProps {
-  onNavigateToForm: () => void;
-  onNavigateToApp: () => void;
-  onSkip: () => void;
+  onViewChange: (view: 'entry' | 'radar' | 'valueChain' | 'useCases') => void;
 }
 
-export default function EntryScreen({ onNavigateToForm, onNavigateToApp, onSkip }: EntryScreenProps) {
+export default function EntryScreen({ onViewChange }: EntryScreenProps) {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -21,21 +19,21 @@ export default function EntryScreen({ onNavigateToForm, onNavigateToApp, onSkip 
   const handleSubmitUseCase = () => {
     setIsVisible(false);
     setTimeout(() => {
-      onNavigateToForm();
+      onViewChange('useCases');
     }, 200);
   };
 
   const handleExploreApp = () => {
     setIsVisible(false);
     setTimeout(() => {
-      onNavigateToApp();
+      onViewChange('radar');
     }, 200);
   };
 
   const handleSkip = () => {
     setIsVisible(false);
     setTimeout(() => {
-      onSkip();
+      onViewChange('entry');
     }, 200);
   };
 
@@ -56,10 +54,11 @@ export default function EntryScreen({ onNavigateToForm, onNavigateToApp, onSkip 
         {/* Header */}
         <header className="text-center mb-12">
           <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent mb-4">
-            AI Energy Use Case Radar
+            AI Energy Radar
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Discover and contribute to AI applications in the energy sector
+            Explore and visualize AI applications across the energy sector. Discover innovative use cases, 
+            track technology maturity, and map the energy value chain.
           </p>
         </header>
 

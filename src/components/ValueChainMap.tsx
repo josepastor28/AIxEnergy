@@ -2,11 +2,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { type RadarDataItem } from '@/data/radarData';
-
-interface ValueChainMapProps {
-  data: RadarDataItem[];
-}
+import { radarData, type RadarDataItem } from '@/data/radarData';
 
 const valueChainStages = [
   'Generation',
@@ -26,7 +22,7 @@ const stageColors = {
   'Trading': '#DDA0DD'
 };
 
-export default function ValueChainMap({ data }: ValueChainMapProps) {
+export default function ValueChainMap() {
   const getStageColor = (stage: string) => {
     return stageColors[stage as keyof typeof stageColors] || '#666';
   };
@@ -46,7 +42,7 @@ export default function ValueChainMap({ data }: ValueChainMapProps) {
   };
 
   // Group data by category for better visualization
-  const groupedData = data.reduce((acc, item) => {
+  const groupedData = radarData.reduce((acc, item) => {
     if (!acc[item.category]) {
       acc[item.category] = [];
     }
@@ -130,7 +126,7 @@ export default function ValueChainMap({ data }: ValueChainMapProps) {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            {Array.from(new Set(data.map(item => item.technology))).map((technology) => (
+            {Array.from(new Set(radarData.map(item => item.technology))).map((technology) => (
               <div key={technology} className="flex items-center gap-2">
                 <div 
                   className="w-3 h-3 rounded-full"

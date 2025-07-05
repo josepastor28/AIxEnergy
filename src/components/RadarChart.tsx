@@ -4,15 +4,7 @@ import { useState, useMemo, useRef } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { type RadarDataItem } from '@/data/radarData';
-
-interface RadarChartProps {
-  data: RadarDataItem[];
-  activeCategories: string[];
-  setActiveCategories: (categories: string[]) => void;
-  activeTechnologies: string[];
-  setActiveTechnologies: (technologies: string[]) => void;
-}
+import { radarData, type RadarDataItem } from '@/data/radarData';
 
 const technologyColors = {
   'Machine Learning': '#FF6B6B',
@@ -25,15 +17,11 @@ const technologyColors = {
   'Blockchain': '#F7DC6F'
 };
 
-export default function RadarChart({ 
-  data, 
-  activeCategories, 
-  setActiveCategories, 
-  activeTechnologies, 
-  setActiveTechnologies 
-}: RadarChartProps) {
+export default function RadarChart() {
   const [hovered, setHovered] = useState<{ sector: number | null; band: number | null }>({ sector: null, band: null });
   const [selectedItem, setSelectedItem] = useState<RadarDataItem | null>(null);
+  const [activeCategories, setActiveCategories] = useState<string[]>([]);
+  const [activeTechnologies, setActiveTechnologies] = useState<string[]>([]);
   const svgRef = useRef<SVGSVGElement>(null);
 
   // Radar geometry
@@ -57,17 +45,17 @@ export default function RadarChart({
   ];
 
   const categories = useMemo(() => 
-    Array.from(new Set(data.map(item => item.category))), 
-    [data]
+    Array.from(new Set(radarData.map(item => item.category))), 
+    []
   );
 
   const technologies = useMemo(() => 
-    Array.from(new Set(data.map(item => item.technology))), 
-    [data]
+    Array.from(new Set(radarData.map(item => item.technology))), 
+    []
   );
 
   const filteredData = useMemo(() => {
-    let filtered = data;
+    let filtered = radarData;
     if (activeCategories.length > 0) {
       filtered = filtered.filter(item => activeCategories.includes(item.category));
     }
@@ -75,7 +63,7 @@ export default function RadarChart({
       filtered = filtered.filter(item => activeTechnologies.includes(item.technology));
     }
     return filtered;
-  }, [data, activeCategories, activeTechnologies]);
+  }, [activeCategories, activeTechnologies]);
 
   const handleCategoryToggle = (category: string) => {
     setActiveCategories(
